@@ -17,13 +17,20 @@ class StompTransport extends TTransport {
     /** @var \CentralDesktop\Stomp\Connection $stomp connection */
     private $stomp = null;
     private $destination = null;
+    private $properties = array();
 
     private $buffer = "";
 
+    /**
+     * @param Connection $con          Stomp connection
+     * @param            $destination  Queue or topic name
+     * @param array      $properties   Properties that transport will pass into the ->send method
+     */
     public
-    function __construct(Connection $con, $destination) {
+    function __construct(Connection $con, $destination, $properties = array()) {
         $this->stomp       = $con;
         $this->destination = $destination;
+        $this->properties  = $properties;
     }
 
 
@@ -82,7 +89,7 @@ class StompTransport extends TTransport {
 
     public
     function flush() {
-        $this->stomp->send($this->destination, $this->buffer);
+        $this->stomp->send($this->destination, $this->buffer, $this->properties);
         $this->buffer = "";
     }
 }
