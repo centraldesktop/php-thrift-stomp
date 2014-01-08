@@ -1,0 +1,7 @@
+.idea
+*.iml
+vendor
+report
+reports
+test-results
+composer.lock
